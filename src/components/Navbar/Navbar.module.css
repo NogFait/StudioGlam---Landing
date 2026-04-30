@@ -1,0 +1,212 @@
+/* ============================================================
+   Navbar — "Aura of Elegance" (Fixed + Burger Mobile)
+   ============================================================ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.navbarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--margin-desktop);
+  gap: var(--spacing-lg);
+}
+
+.brand {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* --- Nav List (Desktop: horizontal row) --- */
+.navList {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-left: auto;
+  list-style: none;
+  padding: 0;
+}
+
+.navItem a {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  transition: color var(--transition-fast);
+  padding: var(--spacing-xs) 0;
+  position: relative;
+  white-space: nowrap;
+}
+
+.navItem a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-secondary-fixed-dim);
+  transition: width var(--transition-base);
+}
+
+.navItem a:hover {
+  color: var(--color-secondary);
+}
+
+.navItem a:hover::after {
+  width: 100%;
+}
+
+/* --- Burger Button (hidden on desktop) --- */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.burger span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--color-primary);
+  transition: all var(--transition-base);
+  transform-origin: center;
+}
+
+/* Burger → X animation */
+.burgerOpen span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.burgerOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burgerOpen span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* --- Overlay (mobile only) --- */
+.overlay {
+  display: none;
+}
+
+/* ============================================================
+   MOBILE — Burger menu + slide-in panel
+   ============================================================ */
+@media (max-width: 768px) {
+  .navbarInner {
+    padding: var(--spacing-md) var(--margin-mobile);
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  /* Overlay backdrop */
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+  }
+
+  .overlayOpen {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Nav list hidden, becomes slide-in panel */
+  .navList {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0;
+    margin-left: 0;
+    padding: calc(var(--spacing-2xl) + var(--spacing-md)) var(--spacing-xl) var(--spacing-xl);
+    background-color: var(--color-surface-container-lowest);
+    border-left: 1px solid var(--color-outline-variant);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    z-index: 101;
+    overflow-y: auto;
+  }
+
+  .navListOpen {
+    transform: translateX(0);
+  }
+
+  .navItem {
+    width: 100%;
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .navItem a {
+    display: block;
+    padding: var(--spacing-md) 0;
+    font-size: 13px;
+  }
+
+  .navItem:last-child {
+    border-bottom: none;
+  }
+}
+
+/* --- Small mobile --- */
+@media (max-width: 480px) {
+  .brand {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  .burger {
+    width: 24px;
+    height: 24px;
+  }
+
+  .burger span {
+    height: 1px;
+  }
+
+  .burgerOpen span:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+
+  .burgerOpen span:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+}

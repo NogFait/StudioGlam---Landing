@@ -1,0 +1,62 @@
+/* ============================================================
+   Servicios (section) — "Aura of Elegance"
+   ============================================================ */
+
+.servicios {
+  padding: var(--spacing-section) var(--margin-desktop);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  background-color: var(--color-surface-container-low);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--color-primary);
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--color-secondary-fixed-dim);
+  margin: var(--spacing-lg) auto 0;
+  border: none;
+}
+
+/* --- Tablet --- */
+@media (max-width: 768px) {
+  .servicios {
+    padding: var(--spacing-section) var(--margin-mobile);
+  }
+
+  .heading {
+    font-size: 32px;
+  }
+
+  .header {
+    margin-bottom: var(--spacing-xl);
+  }
+}
+
+/* --- Small mobile --- */
+@media (max-width: 480px) {
+  .servicios {
+    padding: var(--spacing-xl) var(--margin-mobile);
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .divider {
+    width: 40px;
+  }
+}

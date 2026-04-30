@@ -1,0 +1,25 @@
+/* ============================================================
+   ResenaList — "Aura of Elegance"
+   ============================================================ */
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+/* --- Tablet --- */
+@media (max-width: 1024px) {
+  .list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+}
+
+/* --- Mobile --- */
+@media (max-width: 640px) {
+  .list {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}

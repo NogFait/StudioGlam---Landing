@@ -1,0 +1,67 @@
+/* ============================================================
+   Resenas (section) — "Aura of Elegance"
+   ============================================================ */
+
+.resenas {
+  padding: var(--spacing-section) var(--margin-desktop);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  background-color: var(--color-surface-container-lowest);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--color-primary);
+}
+
+/* --- Tablet --- */
+@media (max-width: 768px) {
+  .resenas {
+    padding: var(--spacing-section) var(--margin-mobile);
+  }
+
+  .heading {
+    font-size: 32px;
+  }
+
+  .header {
+    margin-bottom: var(--spacing-xl);
+  }
+}
+
+/* --- Small mobile --- */
+@media (max-width: 480px) {
+  .resenas {
+    padding: var(--spacing-xl) var(--margin-mobile);
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .label {
+    font-size: 11px;
+  }
+}

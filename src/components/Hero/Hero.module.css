@@ -1,0 +1,125 @@
+/* ============================================================
+   Hero — "Aura of Elegance"
+   ============================================================ */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Compensate fixed navbar (desktop ~60px, mobile ~50px) */
+  padding-top: calc(var(--spacing-3xl) + 60px);
+  padding-bottom: var(--spacing-3xl);
+  padding-left: var(--margin-desktop);
+  padding-right: var(--margin-desktop);
+  min-height: 80vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Dark overlay for readability */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  z-index: 0;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-on-primary);
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--color-secondary-fixed-dim);
+  margin: var(--spacing-lg) 0;
+  border: none;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-inverse-primary);
+}
+
+.ctaButton {
+  display: inline-block;
+  margin-top: var(--spacing-xl);
+  padding: 18px 48px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-on-primary);
+  border-radius: 0;
+  transition: all var(--transition-base);
+}
+
+.ctaButton:hover {
+  background-color: var(--color-secondary-fixed-dim);
+  border-color: var(--color-secondary-fixed-dim);
+  color: var(--color-primary);
+}
+
+/* --- Mobile --- */
+@media (max-width: 768px) {
+  .hero {
+    padding-top: calc(var(--spacing-2xl) + 50px);
+    padding-bottom: var(--spacing-2xl);
+    padding-left: var(--margin-mobile);
+    padding-right: var(--margin-mobile);
+    min-height: 60vh;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 50vh;
+    padding-top: calc(var(--spacing-xl) + 45px);
+    padding-bottom: var(--spacing-xl);
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .ctaButton {
+    padding: 14px 32px;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,109 @@
+/* ============================================================
+   Footer — "Aura of Elegance"
+   ============================================================ */
+
+.footer {
+  padding: var(--spacing-xl) var(--margin-desktop);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.brand {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.navList {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.navItem a {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-inverse-primary);
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.navItem a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-secondary-fixed-dim);
+  transition: width var(--transition-base);
+}
+
+.navItem a:hover {
+  color: var(--color-secondary-fixed-dim);
+}
+
+.navItem a:hover::after {
+  width: 100%;
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--color-on-primary-container);
+  opacity: 0.3;
+  border: none;
+}
+
+.copyright {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--color-on-primary-container);
+}
+
+/* --- Tablet --- */
+@media (max-width: 768px) {
+  .footer {
+    padding: var(--spacing-xl) var(--margin-mobile);
+  }
+
+  .navList {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-md);
+  }
+}
+
+/* --- Small mobile --- */
+@media (max-width: 480px) {
+  .footer {
+    padding: var(--spacing-lg) var(--margin-mobile);
+    gap: var(--spacing-md);
+  }
+
+  .brand {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  .navItem a {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .copyright {
+    font-size: 11px;
+    text-align: center;
+  }
+}
