@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# Studio Glam
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio web premium para salón de alta gama en Mendoza. Diseñado con una estética editorial minimalista inspirada en el concepto **"Aura of Elegance"** — negro y dorado, tipografía serif elegante, espacios amplios y sensación de lujo.
 
-Currently, two official plugins are available:
+## 🛠️ Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19** + **TypeScript**
+- **Vite** como bundler
+- **CSS Modules** — todos los estilos están encapsulados por componente
+- **Google Fonts** — Noto Serif (títulos) + Manrope (cuerpo y navegación)
 
-## React Compiler
+## 🎨 Design System
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+El sistema de diseño está definido en `docs/DESIGN.md` y se aplica estrictamente:
 
-## Expanding the ESLint configuration
+| Token | Valor |
+|---|---|
+| **Primario** | `#000000` — fondos CTA, bordes, títulos de alto impacto |
+| **Secundario** | `#fed65b` / `#e9c349` — acentos dorados, hover, estados activos |
+| **Superficie** | `#f9f9f9` — fondo general (bone/off-white) |
+| **Tipografía display** | Noto Serif, 64px, line-height 1.1, tracking negativo |
+| **Tipografía cuerpo** | Manrope, 16px, line-height 1.6 |
+| **Labels / Navegación** | Manrope uppercase, 12px, tracking 0.15em |
+| **Bordes** | Siempre 0px (sharp corners) |
+| **Sombras** | No se usan — profundidad con bordes 1px y tonal layers |
+| **Espaciado secciones** | 120px vertical |
+| **Max width** | 1280px |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Componentes visuales
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Botón primario:** fondo negro, texto blanco, hover dorado
+- **Botón secundario:** borde fino negro/dorado, hover dorado
+- **Cards:** sin sombras, borde 1px, zoom sutil en imágenes al hover
+- **Mapa:** escala de grises por defecto, color al hover
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📁 Estructura
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── assets/                  # Imágenes procesadas por Vite (hash + optimización)
+│   └── peinando.webp        # Hero background (66KB, comprimida desde 1.3MB PNG)
+├── components/              # Componentes UI con sus CSS Modules
+│   ├── About/               # Sección "Sobre nosotros"
+│   ├── Contact/             # Contacto + mapa (2 columnas desktop, stack mobile)
+│   ├── Footer/              # Footer con navegación
+│   ├── Hero/                # Hero con imagen de fondo + overlay oscuro
+│   ├── Navbar/              # Fixed navbar + burger menu en mobile
+│   ├── ResenaCard/          # Tarjeta de testimonio individual
+│   ├── ResenaList/          # Grid de testimonios
+│   ├── Resenas/             # Sección de reseñas
+│   ├── ServicioCard/        # Tarjeta de servicio individual
+│   ├── ServiciosList/       # Grid de servicios
+│   └── Servicios/           # Sección de servicios
+├── data/                    # Datos estáticos (servicios, reseñas)
+├── types/                   # Interfaces TypeScript
+├── index.css                # CSS global: variables, reset, tipografía base
+├── App.tsx                  # Layout principal
+└── main.tsx                 # Entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📱 Responsive
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Breakpoint | Target | Comportamiento |
+|---|---|---|
+| `> 1024px` | Desktop | Layout completo, grids de 3 columnas |
+| `768px – 1024px` | Tablet | Grids de 2 columnas |
+| `480px – 768px` | Mobile | Layout stack vertical, burger menu |
+| `< 480px` | Mobile pequeño | Tipografías reducidas, botones full-width |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 Comandos
+
+```bash
+pnpm dev       # Servidor de desarrollo
+pnpm build     # Build de producción
+pnpm preview   # Preview del build local
+pnpm lint      # ESLint
 ```
+
+## 🔧 Decisiones técnicas
+
+- **Imágenes en `src/assets/`:** Vite las procesa con hash de versión (cache busting automático). El `peinando.webp` se generó desde un PNG de 1.3MB → 66KB.
+- **Favicon en `public/`:** Nombre fijo sin hash, necesario para que el browser lo resuelva correctamente.
+- **Navegación por anchor links:** Cada sección tiene un `id` y `scroll-margin-top: 100px` para compensar el navbar fixed.
+- **Overlay del menú mobile:** Separado del navList como elemento propio para que el `position: fixed` funcione correctamente sin interferir con `transform`.
+
+## 📄 Licencia
+
+Todos los derechos reservados — Fausto Chirino © 2026
