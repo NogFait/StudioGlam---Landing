@@ -1,11 +1,11 @@
 import styles from './About.module.css'
 
-
+// TODO: reemplazar por una foto real del salón (herramientas/ambiente) antes de publicar.
 const About = () => {
   return (
     <section className={styles.about} id="about">
         <div className={styles.imageWrapper}>
-          <img src="https://www.shutterstock.com/image-vector/vector-hair-salon-seamless-pattern-600nw-2363885867.jpg" alt="herramientas peluqueria" />
+          <div className={styles.imagePlaceholder}>Foto próximamente</div>
         </div>
         <div className={styles.content}>
           <span className={styles.label}>NUESTRA ESENCIA</span>

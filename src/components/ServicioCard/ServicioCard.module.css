@@ -34,6 +34,23 @@
   transform: scale(1.05);
 }
 
+.imagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-surface-container);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-outline);
+  text-align: center;
+  padding: var(--spacing-md);
+}
+
 .content {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,6 @@
 import styles from './Hero.module.css'
 import peinando from '../../assets/peinando.webp'
+import { WHATSAPP_URL } from '../../data/contacto'
 
 const Hero = () => {
   return (
@@ -8,7 +9,9 @@ const Hero = () => {
         <hr className={styles.divider} />
         <h2 className={styles.subtitle}>CORTES, COLORACIÓN Y ESTILO PROFESIONAL</h2>
         <hr className={styles.divider} />
-        <button className={styles.ctaButton}>RESERVAR TURNO POR WHATSAPP</button>
+        <a className={styles.ctaButton} href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+          RESERVAR TURNO POR WHATSAPP
+        </a>
 
     </section>
   )

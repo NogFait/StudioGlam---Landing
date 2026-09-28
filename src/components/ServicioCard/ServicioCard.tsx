@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styles from './ServicioCard.module.css'
 import type { Servicio } from "../../types/Servicio"
 
@@ -6,10 +7,16 @@ type Props = {
 }
 
 const ServicioCard = ({servicio}:Props) => {
+  const [imageFailed, setImageFailed] = useState(false)
+
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
-        <img src={servicio.img} alt={servicio.titulo} />
+        {imageFailed || !servicio.img ? (
+          <div className={styles.imagePlaceholder}>Foto próximamente</div>
+        ) : (
+          <img src={servicio.img} alt={servicio.titulo} onError={() => setImageFailed(true)} />
+        )}
       </div>
 
       <div className={styles.content}>

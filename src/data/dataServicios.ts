@@ -13,13 +13,15 @@ export const servicios: Servicio[] = [
         titulo: "Lavado + peinado",
         descripcion: "Lavado profesional con productos de calidad y peinado final.",
         precio: 2800,
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNSfkoOBYXgnXA4651pY2gDvxhwV-v6_2LHA&s"
+        // TODO: reemplazar por una foto real del servicio antes de publicar.
+        img: ""
     },
     {
         id: 3,
         titulo: "Coloración",
         descripcion: "Cambio de color completo con asesoramiento personalizado.",
         precio: 8500,
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHnrGR_lAiRCLlUtnRhf1FHB2xMkza1CoPBg&s"
+        // TODO: reemplazar por una foto real del servicio antes de publicar.
+        img: ""
     },
 ];
