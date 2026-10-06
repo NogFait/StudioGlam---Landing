@@ -15,9 +15,20 @@
   padding-left: var(--margin-desktop);
   padding-right: var(--margin-desktop);
   min-height: 80vh;
+  overflow: hidden;
+  background-color: var(--color-primary);
+}
+
+/* Image lives on its own layer so it can recede on scroll (transform only). */
+.bg {
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  transform: scale(1.08);
+  transform-origin: center top;
+  will-change: transform;
 }
 
 /* Dark overlay for readability */
@@ -31,12 +42,16 @@
     rgba(0, 0, 0, 0.55) 50%,
     rgba(0, 0, 0, 0.75) 100%
   );
-  z-index: 0;
+  z-index: 1;
 }
 
-.hero > * {
+.content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform, opacity;
 }
 
 .title {
@@ -46,6 +61,7 @@
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--color-on-primary);
+  font-optical-sizing: auto;
 }
 
 .divider {
@@ -78,7 +94,17 @@
   background-color: var(--color-primary);
   border: 1px solid var(--color-on-primary);
   border-radius: 0;
-  transition: all var(--transition-base);
+  transition:
+    transform var(--t-snappy) var(--spring-snappy),
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    color var(--transition-base);
+}
+
+/* Feedback lands on pointer-down, quicker than the release. */
+.ctaButton:active {
+  transform: scale(0.97);
+  transition-duration: var(--t-press), 0ms, 0ms, 0ms;
 }
 
 .ctaButton:hover {
@@ -121,5 +147,20 @@
   .ctaButton {
     padding: 14px 32px;
     font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg,
+  .content {
+    will-change: auto;
+  }
+
+  .bg {
+    transform: none;
+  }
+
+  .ctaButton:active {
+    transform: none;
   }
 }

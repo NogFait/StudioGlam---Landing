@@ -3,9 +3,6 @@
    Design System: "Aura of Elegance"
    ============================================================ */
 
-/* --- Google Fonts --- */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap');
-
 /* --- CSS Custom Properties --- */
 :root {
   /* Primary */
@@ -77,10 +74,20 @@
   --font-serif: 'Noto Serif', Georgia, 'Times New Roman', serif;
   --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Transitions */
+  /* Transitions (colour/border only — anything that moves uses a spring) */
   --transition-fast: 150ms ease;
   --transition-base: 300ms ease;
-  --transition-slow: 500ms ease;
+
+  /* Springs — CSS twins of src/motion/physics.ts (damping ratio 1, response in s).
+     Duration = settle time of the curve. Use on transform/opacity only. */
+  --spring-press: linear(0, 0.039, 0.128, 0.237, 0.35, 0.457, 0.553, 0.636, 0.707, 0.766, 0.814, 0.853, 0.884, 0.91, 0.93, 0.945, 0.958, 0.967, 0.975, 0.981, 0.985, 0.989, 0.991, 0.993, 1);
+  --t-press: 236ms;
+  --spring-snappy: linear(0, 0.039, 0.128, 0.237, 0.35, 0.457, 0.553, 0.636, 0.707, 0.766, 0.814, 0.853, 0.884, 0.91, 0.93, 0.945, 0.958, 0.967, 0.975, 0.981, 0.985, 0.989, 0.991, 0.993, 1);
+  --t-snappy: 354ms;
+  --spring-settle: linear(0, 0.039, 0.128, 0.237, 0.35, 0.457, 0.553, 0.636, 0.707, 0.766, 0.814, 0.853, 0.884, 0.91, 0.93, 0.945, 0.958, 0.967, 0.975, 0.981, 0.985, 0.989, 0.991, 0.993, 1);
+  --t-settle: 472ms;
+  --spring-gentle: linear(0, 0.039, 0.128, 0.238, 0.351, 0.458, 0.554, 0.637, 0.708, 0.766, 0.814, 0.854, 0.885, 0.91, 0.93, 0.946, 0.958, 0.967, 0.975, 0.981, 0.985, 0.989, 0.991, 0.993, 1);
+  --t-gentle: 650ms;
 }
 
 /* --- Reset --- */
@@ -96,6 +103,11 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable; /* no layout jump when a modal locks the scroll */
+}
+
+html.scroll-locked {
+  overflow: hidden;
 }
 
 /* Offset for fixed navbar on anchor scroll */
@@ -111,6 +123,16 @@ body {
   letter-spacing: 0.01em;
   color: var(--color-on-surface);
   background-color: var(--color-background);
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 img {
@@ -189,6 +211,26 @@ hr {
   text-transform: uppercase;
 }
 
+/* --- Passive entrances (see src/motion/useReveal.ts) ---
+   Hidden only when JS is running (class set inline in index.html), so the
+   page never depends on the observer to be readable. */
+.js [data-reveal]:not([data-reveal='in']) {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+}
+
+[data-reveal] {
+  transition:
+    opacity var(--t-gentle) var(--spring-gentle),
+    transform var(--t-gentle) var(--spring-gentle);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
 /* --- Responsive --- */
 @media (max-width: 768px) {
   .display-lg {
@@ -199,5 +241,22 @@ hr {
   }
   .headline-md {
     font-size: 24px;
+  }
+}
+
+/* --- Accessibility: motion & transparency --- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Keep the state change, drop the travel: a short cross-fade instead. */
+  .js [data-reveal]:not([data-reveal='in']) {
+    transform: none;
+  }
+
+  [data-reveal] {
+    transition: opacity 200ms ease;
+    transition-delay: 0ms;
   }
 }

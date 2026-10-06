@@ -6,7 +6,7 @@ const Contact = () => {
   return (
     <section className={styles.contact} id="contacto">
         <div className={styles.contactInner}>
-          <div className={styles.info}>
+          <div className={styles.info} data-reveal>
             <h2 className={styles.heading}>Visitános en Mendoza</h2>
             <span className={styles.address}>Av. Arístides Villanueva 450</span>
             <p className={styles.city}>Ciudad de Mendoza Argentina</p>
@@ -17,7 +17,7 @@ const Contact = () => {
             </a>
           </div>
 
-          <div className={styles.mapWrapper}>
+          <div className={styles.mapWrapper} data-reveal style={{ '--i': 1 } as React.CSSProperties}>
             <iframe
               src="https://www.google.com/maps?q=Av.+Arístides+Villanueva+450,+Mendoza,+Argentina&output=embed"
               width="100%"

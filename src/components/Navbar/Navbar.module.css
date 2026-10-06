@@ -8,8 +8,27 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background-color: var(--color-surface-container-lowest);
-  border-bottom: 1px solid var(--color-outline-variant);
+  border-bottom: 1px solid rgba(207, 196, 197, 0.6);
+  transition: transform var(--t-settle) var(--spring-settle);
+}
+
+/* Material: content scrolls under a translucent layer. The blur lives on a
+   pseudo-element (a backdrop-filter on .navbar itself would trap the fixed
+   mobile menu inside it) and is static — only the bar's position moves. */
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+.navbarHidden {
+  transform: translateY(-100%);
+  transition-duration: var(--t-snappy);
+  transition-timing-function: var(--spring-snappy);
 }
 
 .navbarInner {
@@ -28,6 +47,12 @@
   text-transform: uppercase;
   color: var(--color-primary);
   flex-shrink: 0;
+  transition: transform var(--t-snappy) var(--spring-snappy);
+}
+
+.brand:active {
+  transform: scale(0.97);
+  transition-duration: var(--t-press);
 }
 
 /* --- Nav List (Desktop: horizontal row) --- */
@@ -38,6 +63,23 @@
   margin-left: auto;
   list-style: none;
   padding: 0;
+  position: relative;
+}
+
+/* One gold line that travels between links (hover) and rests on the one in view. */
+.indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background-color: var(--color-secondary-fixed-dim);
+  transform-origin: left center;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--t-snappy) var(--spring-snappy),
+    opacity var(--transition-base);
 }
 
 .navItem a {
@@ -53,23 +95,9 @@
   white-space: nowrap;
 }
 
-.navItem a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background-color: var(--color-secondary-fixed-dim);
-  transition: width var(--transition-base);
-}
-
-.navItem a:hover {
+.navItem a:hover,
+.navItem a.current {
   color: var(--color-secondary);
-}
-
-.navItem a:hover::after {
-  width: 100%;
 }
 
 /* --- Burger Button (hidden on desktop) --- */
@@ -85,6 +113,8 @@
   border: none;
   cursor: pointer;
   flex-shrink: 0;
+  position: relative;
+  z-index: 102; /* stays above the open menu panel so it can close it */
 }
 
 .burger span {
@@ -92,7 +122,9 @@
   width: 100%;
   height: 1.5px;
   background-color: var(--color-primary);
-  transition: all var(--transition-base);
+  transition:
+    transform var(--t-snappy) var(--spring-snappy),
+    opacity var(--transition-fast);
   transform-origin: center;
 }
 
@@ -139,6 +171,10 @@
     transition: opacity var(--transition-base);
   }
 
+  .indicator {
+    display: none;
+  }
+
   .overlayOpen {
     opacity: 1;
     pointer-events: auto;
@@ -161,13 +197,16 @@
     background-color: var(--color-surface-container-lowest);
     border-left: 1px solid var(--color-outline-variant);
     transform: translateX(100%);
-    transition: transform var(--transition-base);
+    /* Leaves along the path it came in on, a touch quicker than it arrived. */
+    transition: transform var(--t-snappy) var(--spring-snappy);
     z-index: 101;
     overflow-y: auto;
   }
 
   .navListOpen {
     transform: translateX(0);
+    transition-duration: var(--t-settle);
+    transition-timing-function: var(--spring-settle);
   }
 
   .navItem {
@@ -208,5 +247,30 @@
 
   .burgerOpen span:nth-child(3) {
     transform: translateY(-5.5px) rotate(-45deg);
+  }
+}
+
+/* --- Accessibility --- */
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navList,
+  .indicator,
+  .burger span,
+  .brand {
+    transition-duration: 150ms !important;
+    transition-timing-function: ease !important;
+  }
+
+  .navbarHidden {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .navbar::before {
+    background-color: var(--color-surface-container-lowest);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-bottom-color: var(--color-outline);
   }
 }

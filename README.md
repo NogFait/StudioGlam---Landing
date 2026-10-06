@@ -58,6 +58,16 @@ src/
 └── main.tsx                 # Entry point
 ```
 
+## 🌀 Movimiento (skills `apple-design` + `apple-motion`)
+
+Una sola física, definida en `src/motion/physics.ts` (damping ratio + response, como Apple) y replicada en CSS como `--spring-*` / `--t-*` en `index.css`. Sin librerías de animación: el JS pesa +4.8 % gzip.
+
+- **Card → detalle compartido** (`ServicioPanel`): la tarjeta de servicio se convierte en su panel (un solo valor `p` mueve todo). Se arrastra para cerrar con inercia (`project`), rubber-band hacia arriba, interrumpible a mitad de vuelo, `Esc`/scrim/✕, foco devuelto a la card y scroll bloqueado. El CTA lleva el servicio en el mensaje de WhatsApp.
+- **Hero que retrocede** al hacer scroll (1:1, reversible, solo `transform`/`opacity`).
+- **Navbar** translúcida (material), línea dorada que viaja entre links (hover / sección activa) y que se esconde al bajar en móvil.
+- **Entradas** por `IntersectionObserver` (`useReveal`) con springs CSS; press inmediato en botones y cards.
+- `prefers-reduced-motion`, `prefers-reduced-transparency` y `prefers-contrast` respetados.
+
 ## 📱 Responsive
 
 | Breakpoint | Target | Comportamiento |

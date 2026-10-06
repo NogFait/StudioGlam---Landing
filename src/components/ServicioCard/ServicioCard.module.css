@@ -9,10 +9,32 @@
   border: 1px solid var(--color-outline-variant);
   border-radius: 0;
   overflow: hidden;
-  transition: border-color var(--transition-base);
+  position: relative;
+  height: 100%;
+  transition:
+    transform var(--t-snappy) var(--spring-snappy),
+    border-color var(--transition-base);
 }
 
-.card:hover {
+/* Press answers on pointer-down (:active also matches the card while its
+   stretched button is held), faster than the release. */
+.card:active {
+  transform: scale(0.985);
+  transition-duration: var(--t-press), 0ms;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-secondary-fixed-dim);
+  }
+
+  .card:hover:active {
+    transform: translateY(-4px) scale(0.985);
+  }
+}
+
+.card:focus-within {
   border-color: var(--color-secondary-fixed-dim);
 }
 
@@ -27,11 +49,13 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform var(--transition-slow);
+  transition: transform var(--t-gentle) var(--spring-gentle);
 }
 
-.card:hover .imageWrapper img {
-  transform: scale(1.05);
+@media (hover: hover) {
+  .card:hover .imageWrapper img {
+    transform: scale(1.05);
+  }
 }
 
 .imagePlaceholder {
@@ -56,6 +80,7 @@
   flex-direction: column;
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
+  flex: 1;
 }
 
 .title {
@@ -74,6 +99,19 @@
   line-height: 1.6;
   letter-spacing: 0.01em;
   color: var(--color-on-surface-variant);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin-top: auto;
+  padding-top: var(--spacing-xs);
 }
 
 .price {
@@ -82,7 +120,44 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   color: var(--color-secondary);
-  margin-top: var(--spacing-xs);
+}
+
+.open {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.open::before {
+  content: '→';
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--color-secondary);
+  transition: transform var(--t-snappy) var(--spring-snappy);
+}
+
+@media (hover: hover) {
+  .card:hover .open::before {
+    transform: translateX(4px);
+  }
+}
+
+.open:focus-visible {
+  outline: none;
+}
+
+.card:has(.open:focus-visible) {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
 }
 
 /* --- Tablet --- */
@@ -101,5 +176,23 @@
 
   .price {
     font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card:hover,
+  .card:active,
+  .card:hover:active {
+    transform: none;
+  }
+
+  .imageWrapper img {
+    transition: none;
+  }
+
+  .card:hover .imageWrapper img,
+  .card:hover .open::before {
+    transform: none;
   }
 }

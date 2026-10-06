@@ -1,0 +1,274 @@
+/* ============================================================
+   ServicioPanel — card that grows into its own detail
+   ============================================================ */
+
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm);
+}
+
+/* Depth comes from dimming the page, not from blur (a full-screen blur that
+   fades in and out costs far more than it adds). */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+}
+
+.panel {
+  position: relative;
+  width: min(920px, 100%);
+  max-height: min(88dvh, 640px);
+  display: flex;
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 0;
+  overflow: hidden;
+  opacity: 0; /* set from JS before first paint */
+  will-change: transform, opacity;
+  outline: none;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+}
+
+/* --- Media (also the drag handle) --- */
+.media {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  background-color: var(--color-surface-container);
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.media:active {
+  cursor: grabbing;
+}
+
+.media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-outline);
+}
+
+.grabber {
+  display: none;
+}
+
+/* --- Text --- */
+.text {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary);
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  margin: var(--spacing-xs) 0;
+  background-color: var(--color-secondary-fixed-dim);
+  border: none;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-on-surface-variant);
+}
+
+/* Primary action stays in view; only the body scrolls. */
+.footer {
+  flex: 0 0 auto;
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg);
+  background-color: var(--color-surface-container-lowest);
+}
+
+.cta {
+  display: block;
+  text-align: center;
+  padding: 18px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  transition:
+    transform var(--t-snappy) var(--spring-snappy),
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    color var(--transition-base);
+}
+
+.cta:hover {
+  background-color: var(--color-secondary-fixed-dim);
+  border-color: var(--color-secondary-fixed-dim);
+  color: var(--color-primary);
+}
+
+.cta:active {
+  transform: scale(0.98);
+  transition-duration: var(--t-press), 0ms, 0ms, 0ms;
+}
+
+.closeBtn {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--color-outline-variant);
+  transition:
+    transform var(--t-snappy) var(--spring-snappy),
+    background-color var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background-color: var(--color-secondary-fixed-dim);
+}
+
+.closeBtn:active {
+  transform: scale(0.94);
+  transition-duration: var(--t-press), 0ms;
+}
+
+.closeBtn:focus-visible,
+.cta:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* --- Mobile: a sheet. Image on top (the grab area), text below. --- */
+@media (max-width: 768px) {
+  .layer {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .panel {
+    width: 100%;
+    max-height: 90dvh;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .media {
+    min-height: 0;
+    height: clamp(140px, 24dvh, 220px);
+  }
+
+  .grabber {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+
+  .body {
+    padding: var(--spacing-md) var(--margin-mobile) var(--spacing-sm);
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+
+  .footer {
+    padding: var(--spacing-sm) var(--margin-mobile) calc(var(--spacing-md) + env(safe-area-inset-bottom));
+  }
+
+  .closeBtn {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta:active,
+  .closeBtn:active {
+    transform: none;
+  }
+}

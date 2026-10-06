@@ -5,8 +5,10 @@ import { ResenaCard } from "../ResenaCard/ResenaCard"
 const ResenaList = () => {
   return (
     <div className={styles.list}>
-        {resenas.map((resena)=>(
-            <ResenaCard key={resena.id} resena={resena}/>
+        {resenas.map((resena, i)=>(
+            <div key={resena.id} data-reveal style={{ '--i': i } as React.CSSProperties}>
+              <ResenaCard resena={resena}/>
+            </div>
         ))}
     </div>
   )
